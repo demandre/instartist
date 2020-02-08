@@ -128,13 +128,13 @@
                                 android:textColor="@color/colorPrimaryDark"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
-                                android:id="@+id/following"
+                                android:id="@+id/earnings"
                                 android:textStyle="bold"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="following"/>
+                                android:text="earnings"/>
 
                         </LinearLayout>
 
