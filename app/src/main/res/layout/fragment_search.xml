@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.SearchFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SERACH"
-        android:textSize="150px"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

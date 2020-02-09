@@ -1,6 +1,7 @@
 package com.jdemandre.instartist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jdemandre.instartist.Fragments.HomeFragment;
+import com.jdemandre.instartist.Fragments.NotificationFragment;
+import com.jdemandre.instartist.Fragments.ProfileFragment;
 import com.jdemandre.instartist.Fragments.SearchFragment;
 import com.squareup.picasso.Picasso;
 
@@ -60,6 +63,16 @@ public class StartActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_search:
                             selectedfragment = new SearchFragment();
+                            break;
+                        case R.id.nav_add:
+                            selectedfragment = null;
+                            startActivity(new Intent(StartActivity.this, PostActivity.class));
+                            break;
+                        case R.id.nav_heart:
+                            selectedfragment = new NotificationFragment();
+                            break;
+                        case R.id.nav_profile:
+                            selectedfragment = new ProfileFragment();
                             break;
                     }
                     if (selectedfragment != null) {
