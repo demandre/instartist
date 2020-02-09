@@ -29,35 +29,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        this.client = GoogleSignIn.getClient(this, gso);
-
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
-        });
-
-        login = findViewById(R.id.login);
-        register = findViewById(R.id.register);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(StartActivity.this, LoginActivity.class));
-            }
-        });
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(StartActivity.this, RegisterActivity.class));
-            }
-        });
+        setContentView(R.layout.activity_main);
     }
 
     private void signIn() {
@@ -87,7 +59,9 @@ public class StartActivity extends AppCompatActivity {
         if (account != null) {
             Toast.makeText(this, "Hello back, " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
             findViewById(R.id.button).setVisibility(View.GONE);
-
+            Intent intent = new Intent(StartActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
             Uri photoUrl = account.getPhotoUrl();
             ImageView imageView = findViewById(R.id.imageView);
             if (photoUrl != null) {
