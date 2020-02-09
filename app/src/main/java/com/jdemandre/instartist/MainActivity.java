@@ -45,16 +45,6 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_search:
                                 selectedfragment = new SearchFragment();
                                 break;
-                            case R.id.nav_add:
-                                selectedfragment = null;
-                                startActivity(new Intent(MainActivity.this, PostActivity.class));
-                                break;
-                            case R.id.nav_heart:
-                                selectedfragment = new NotificationFragment();
-                                break;
-                            // TODO
-                            case R.id.nav_profile:
-                                break;
                         }
                         if (selectedfragment != null) {
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
