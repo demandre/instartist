@@ -26,6 +26,7 @@ public class User {
     public String getUserName() {
         return userName;
     }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -33,6 +34,7 @@ public class User {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -40,6 +42,7 @@ public class User {
     public List<Publication> getPublications() {
         return publications;
     }
+
     public void setPublications(List<Publication> publications) {
         this.publications = publications;
     }
@@ -71,6 +74,7 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -78,9 +82,8 @@ public class User {
     public Integer getPhone() {
         return phone;
     }
+
     public void setPhone(Integer phone) {
         this.phone = phone;
     }
-
-
 }
