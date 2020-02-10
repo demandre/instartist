@@ -21,8 +21,8 @@ public class UserController {
 
     // --- CREATE ---
 
-    public static Task<Void> createUser(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, Integer phone, float earnings) {
-        User userToCreate = new User(userName, description, publications, interests, profilePic, email, phone, earnings);
+    public static Task<Void> createUser(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, Integer phone, float earnings, List<User> following) {
+        User userToCreate = new User(userName, description, publications, interests, profilePic, email, phone, earnings, following);
         return UserController.getUsersCollection().document(userName).set(userToCreate);
     }
 
@@ -52,6 +52,10 @@ public class UserController {
 
     public static Task<Void> updateEarnings(String userName, float earnings) {
         return UserController.getUsersCollection().document(userName).update("earnings", earnings);
+    }
+
+    public static Task<Void> updateFollowing(String userName, float following) {
+        return UserController.getUsersCollection().document(userName).update("following", following);
     }
 
     // --- DELETE ---

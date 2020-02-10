@@ -11,8 +11,9 @@ public class User {
     private String email;
     private Integer phone;
     private float earnings;
+    private List<User> following;
 
-    public User(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, Integer phone, float earnings) {
+    public User(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, Integer phone, float earnings, List<User> following) {
         this.userName = userName;
         this.description = description;
         this.publications = publications;
@@ -21,6 +22,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.earnings = earnings;
+        this.following = following;
     }
 
     public String getUserName() {
@@ -47,7 +49,6 @@ public class User {
     public List<String> getInterests() {
         return interests;
     }
-
     public void setInterests(List<String> interests) {
         this.interests = interests;
     }
@@ -55,7 +56,6 @@ public class User {
     public String getProfilePic() {
         return profilePic;
     }
-
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
@@ -63,7 +63,6 @@ public class User {
     public float getEarnings() {
         return earnings;
     }
-
     public void setEarnings(float earnings) {
         this.earnings = earnings;
     }
@@ -82,5 +81,10 @@ public class User {
         this.phone = phone;
     }
 
-
+    public List<User> getFollowing() {
+        return following;
+    }
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
 }
