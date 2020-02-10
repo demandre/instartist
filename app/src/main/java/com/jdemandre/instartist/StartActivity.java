@@ -30,56 +30,81 @@ import androidx.fragment.app.Fragment;
 
 public class StartActivity extends AppCompatActivity {
 
-    BottomNavigationView bottom_navigation;
-    Fragment selectedfragment = null;
-
     public static final int REQUEST_CODE = 1;
     private GoogleSignInClient client;
-
     Button login, register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        this.client = GoogleSignIn.getClient(this, gso);
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
 
 
+        login = findViewById(R.id.login);
+        register = findViewById(R.id.register);
 
-        bottom_navigation = findViewById(R.id.bottom_navigation);
-        bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StartActivity.this, LoginActivity.class));
+            }
+        });
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StartActivity.this, RegisterActivity.class));
+            }
+        });
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    private void signIn() {
+        Intent signInIntent = client.getSignInIntent();
+        startActivityForResult(signInIntent, REQUEST_CODE);
+    }
 
-                    switch (menuItem.getItemId()){
-                        case R.id.nav_home:
-                            selectedfragment = new HomeFragment();
-                            break;
-                        case R.id.nav_search:
-                            selectedfragment = new SearchFragment();
-                            break;
-                        case R.id.nav_add:
-                            selectedfragment = null;
-                            startActivity(new Intent(StartActivity.this, PostActivity.class));
-                            break;
-                        case R.id.nav_heart:
-                            selectedfragment = new NotificationFragment();
-                            break;
-                        case R.id.nav_profile:
-                            selectedfragment = new ProfileFragment();
-                            break;
-                    }
-                    if (selectedfragment != null) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                selectedfragment).commit();
-                    }
-                    return true;
-                }
-            };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+            try {
+                GoogleSignInAccount account = accountTask.getResult(ApiException.class);
+                Toast.makeText(this, "Hello, " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            Toast.makeText(this, "Hello back, " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
+            findViewById(R.id.button).setVisibility(View.GONE);
+            Uri photoUrl = account.getPhotoUrl();
+            ImageView imageView = findViewById(R.id.imageView);
+            if (photoUrl != null) {
+                Picasso.get().load(photoUrl).into(imageView);
+            } else {
+                Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
+            }
+
+            startActivity(new Intent(StartActivity.this, MainActivity.class));
+        }
+    }
 }
