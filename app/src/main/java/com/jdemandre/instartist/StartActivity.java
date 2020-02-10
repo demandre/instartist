@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,7 +32,6 @@ public class StartActivity extends AppCompatActivity {
     private static final String TAG = "jo";
     private GoogleSignInClient client;
     private FirebaseAuth mAuth;
-    Button login, register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +51,6 @@ public class StartActivity extends AppCompatActivity {
                 signIn();
             }
         });
-
-
-        login = findViewById(R.id.login);
-        register = findViewById(R.id.register);
     }
 
     @Override

@@ -103,7 +103,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/followers"
+                                android:id="@+id/earnings"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
@@ -112,7 +112,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="followers"/>
+                                android:text="earnings"/>
 
                         </LinearLayout>
 
@@ -122,19 +122,12 @@
                             android:layout_marginLeft="35dp"
                             android:orientation="vertical">
 
-                            <TextView
+                            <Button
+                                android:id="@+id/adButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:layout_gravity="center"
-                                android:textSize="18sp"
-                                android:id="@+id/earnings"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="earnings"/>
+                                android:text="ViewAd"
+                                tools:layout_editor_absoluteX="161dp" />
 
                         </LinearLayout>
 
