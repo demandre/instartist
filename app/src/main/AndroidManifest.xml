@@ -19,8 +19,7 @@
             android:value="ca-app-pub-2107875037807336~5887791661"/>
         <activity android:name=".PostActivity"/>
         <activity android:name=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".EditActivity" />
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

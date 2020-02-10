@@ -1,6 +1,7 @@
 package com.jdemandre.instartist.Fragments;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.jdemandre.instartist.EditActivity;
 import com.jdemandre.instartist.R;
 import com.squareup.picasso.Picasso;
 
@@ -106,6 +108,13 @@ public class ProfileFragment extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Please wait, ad is loading...", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        getView().findViewById(R.id.edit_profile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EditActivity.class));
             }
         });
 
