@@ -6,19 +6,21 @@ public class User {
     private String userName;
     private String description;
     private List<Publication> publications;
-    private String interests;
-    private String ProfilePic;
+    private List<String> interests;
+    private String profilePic;
     private String email;
     private Integer phone;
+    private float earnings;
 
-    public User(String userName, String description, List<Publication> publications, String interests, String profilePic, String email, Integer phone) {
+    public User(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, Integer phone, float earnings) {
         this.userName = userName;
         this.description = description;
         this.publications = publications;
         this.interests = interests;
-        ProfilePic = profilePic;
+        this.profilePic = profilePic;
         this.email = email;
         this.phone = phone;
+        this.earnings = earnings;
     }
 
     public String getUserName() {
@@ -42,18 +44,28 @@ public class User {
         this.publications = publications;
     }
 
-    public String getInterests() {
+    public List<String> getInterests() {
         return interests;
     }
-    public void setInterests(String interests) {
+
+    public void setInterests(List<String> interests) {
         this.interests = interests;
     }
 
     public String getProfilePic() {
-        return ProfilePic;
+        return profilePic;
     }
+
     public void setProfilePic(String profilePic) {
-        ProfilePic = profilePic;
+        this.profilePic = profilePic;
+    }
+
+    public float getEarnings() {
+        return earnings;
+    }
+
+    public void setEarnings(float earnings) {
+        this.earnings = earnings;
     }
 
     public String getEmail() {
@@ -70,16 +82,5 @@ public class User {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", description='" + description + '\'' +
-                ", publications=" + publications +
-                ", interests='" + interests + '\'' +
-                ", ProfilePic='" + ProfilePic + '\'' +
-                ", email='" + email + '\'' +
-                ", phone=" + phone +
-                '}';
-    }
+
 }
