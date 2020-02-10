@@ -74,6 +74,7 @@ public class StartActivity extends AppCompatActivity {
             try {
                 GoogleSignInAccount account = accountTask.getResult(ApiException.class);
                 Toast.makeText(this, "Hello, " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(StartActivity.this, MainActivity.class));
             } catch (ApiException e) {
                 e.printStackTrace();
             }
