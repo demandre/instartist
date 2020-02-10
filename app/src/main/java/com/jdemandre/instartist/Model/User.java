@@ -9,11 +9,11 @@ public class User {
     private List<String> interests;
     private String profilePic;
     private String email;
-    private Integer phone;
+    private String phone;
     private float earnings;
     private List<User> following;
 
-    public User(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, Integer phone, float earnings, List<User> following) {
+    public User(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
         this.userName = userName;
         this.description = description;
         this.publications = publications;
@@ -78,11 +78,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
