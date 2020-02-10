@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "131544832824",
+    "firebase_url": "https://testinstartiste.firebaseio.com",
+    "project_id": "testinstartiste",
+    "storage_bucket": "testinstartiste.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131544832824:android:1a94d764e326f91db5ffcd",
+        "android_client_info": {
+          "package_name": "com.jdemandre.instartist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131544832824-n631pf3v2scm3pqs3767cnh3svoo2pjf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jdemandre.instartist",
+            "certificate_hash": "cb1ffb6db6cbda97d8fed7d68f3f6676e47987e9"
+          }
+        },
+        {
+          "client_id": "131544832824-pr7gku1h7o1fhjouobt5akvv1o5qaisf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEaARYWWOKKngNPRdCdvboMa7Q_hBapHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131544832824-pr7gku1h7o1fhjouobt5akvv1o5qaisf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
