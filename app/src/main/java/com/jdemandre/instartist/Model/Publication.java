@@ -1,22 +1,22 @@
 package com.jdemandre.instartist.Model;
 
 public class Publication {
-    private Integer id;
+    private String id;
     private String imageUrl;
     private String description;
     private String author;
 
-    public Publication(Integer id, String imageUrl, String description, String author) {
+    public Publication(String id, String imageUrl, String description, String author) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.description = description;
         this.author = author;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
