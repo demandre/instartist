@@ -21,47 +21,50 @@ public class UserController {
 
     // --- CREATE ---
 
-    public static Task<Void> createUser(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
-        User userToCreate = new User(userName, description, publications, interests, profilePic, email, phone, earnings, following);
-        return UserController.getUsersCollection().document(userName).set(userToCreate);
+    public static Task<Void> createUser(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
+        User userToCreate = new User(id, userName, description, publications, interests, profilePic, email, phone, earnings, following);
+        return UserController.getUsersCollection().document(id).set(userToCreate);
     }
 
     // --- GET ---
 
-    public static Task<DocumentSnapshot> getUser(String userName){
-        return UserController.getUsersCollection().document(userName).get();
+    public static Task<DocumentSnapshot> getUser(String id){
+        return UserController.getUsersCollection().document(id).get();
     }
 
     // --- UPDATE ---
-
-    public static Task<Void> updateDescription(String userName, String description) {
-        return UserController.getUsersCollection().document(userName).update("description", description);
+    public static Task<Void> updateUserName(String id, String userName) {
+        return UserController.getUsersCollection().document(id).update("userName", userName);
     }
 
-    public static Task<Void> updateprofilePic(String userName, String profilePic) {
-        return UserController.getUsersCollection().document(userName).update("profilePic", profilePic);
+    public static Task<Void> updateDescription(String id, String description) {
+        return UserController.getUsersCollection().document(id).update("description", description);
     }
 
-    public static Task<Void> updateEmail(String userName, String email) {
-        return UserController.getUsersCollection().document(userName).update("email", email);
+    public static Task<Void> updateprofilePic(String id, String profilePic) {
+        return UserController.getUsersCollection().document(id).update("profilePic", profilePic);
     }
 
-    public static Task<Void> updatePhone(String userName, String phone) {
-        return UserController.getUsersCollection().document(userName).update("phone", phone);
+    public static Task<Void> updateEmail(String id, String email) {
+        return UserController.getUsersCollection().document(id).update("email", email);
     }
 
-    public static Task<Void> updateEarnings(String userName, float earnings) {
-        return UserController.getUsersCollection().document(userName).update("earnings", earnings);
+    public static Task<Void> updatePhone(String id, String phone) {
+        return UserController.getUsersCollection().document(id).update("phone", phone);
     }
 
-    public static Task<Void> updateFollowing(String userName, float following) {
-        return UserController.getUsersCollection().document(userName).update("following", following);
+    public static Task<Void> updateEarnings(String id, float earnings) {
+        return UserController.getUsersCollection().document(id).update("earnings", earnings);
+    }
+
+    public static Task<Void> updateFollowing(String id, float following) {
+        return UserController.getUsersCollection().document(id).update("following", following);
     }
 
     // --- DELETE ---
 
-    public static Task<Void> deleteUser(String userName) {
-        return UserController.getUsersCollection().document(userName).delete();
+    public static Task<Void> deleteUser(String id) {
+        return UserController.getUsersCollection().document(id).delete();
     }
 
 

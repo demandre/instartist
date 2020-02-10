@@ -3,6 +3,7 @@ package com.jdemandre.instartist.Model;
 import java.util.List;
 
 public class User {
+    private String id;
     private String userName;
     private String description;
     private List<Publication> publications;
@@ -13,7 +14,8 @@ public class User {
     private float earnings;
     private List<User> following;
 
-    public User(String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
+    public User(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
+        this.id = id;
         this.userName = userName;
         this.description = description;
         this.publications = publications;
@@ -23,6 +25,14 @@ public class User {
         this.phone = phone;
         this.earnings = earnings;
         this.following = following;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -91,5 +101,21 @@ public class User {
     }
     public void setFollowing(List<User> following) {
         this.following = following;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", description='" + description + '\'' +
+                ", publications=" + publications +
+                ", interests=" + interests +
+                ", profilePic='" + profilePic + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", earnings=" + earnings +
+                ", following=" + following +
+                '}';
     }
 }
