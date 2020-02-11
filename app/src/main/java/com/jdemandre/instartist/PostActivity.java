@@ -40,7 +40,7 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        new GligarPicker().limit(1).disableCamera(false).cameraDirect(true).requestCode(PICKER_REQUEST_CODE).withActivity(this).show();
+        new GligarPicker().limit(1).disableCamera(false).cameraDirect(false).requestCode(PICKER_REQUEST_CODE).withActivity(this).show();
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
