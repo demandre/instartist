@@ -1,6 +1,9 @@
 package com.jdemandre.instartist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -81,15 +84,24 @@ public class StartActivity extends AppCompatActivity {
                             startActivity(new Intent(StartActivity.this, MainActivity.class));
                         } else {
                             startActivity(new Intent(StartActivity.this, EditActivity.class));
-                            UserController.createUser(currentUser.getUid(),currentUser.getDisplayName(),"desc",null,null,currentUser.getPhotoUrl().toString(),currentUser.getEmail(),"0123",3.2f,null);
                         }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
-                        Toast.makeText(StartActivity.this, "Error happened... Pleas try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StartActivity.this, "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                        if (!StartActivity.this.isNetworkAvailable()) {
+                            Toast.makeText(StartActivity.this, "Please connect to internet", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void signIn() {

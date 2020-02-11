@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 import com.jdemandre.instartist.Model.Publication;
 import com.jdemandre.instartist.Model.User;
 
@@ -29,10 +30,19 @@ public class UserController {
     // --- GET ---
 
     public static Task<DocumentSnapshot> getUser(String id){
-        return UserController.getUsersCollection().document(id).get();
+        Source source = Source.SERVER;
+        return UserController.getUsersCollection().document(id).get(source);
     }
 
     // --- UPDATE ---
+
+    public static Task<Void> updateUsername(String id, String username) {
+        return UserController.getUsersCollection().document(id).update("userName", username);
+    }
+
+    public static Task<Void> updateInterests(String id, String interests) {
+        return UserController.getUsersCollection().document(id).update("interests", interests);
+    }
 
     public static Task<Void> updateDescription(String id, String description) {
         return UserController.getUsersCollection().document(id).update("description", description);
