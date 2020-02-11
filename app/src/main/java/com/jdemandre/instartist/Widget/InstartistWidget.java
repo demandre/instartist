@@ -17,7 +17,7 @@ import com.jdemandre.instartist.R;
 public class InstartistWidget extends AppWidgetProvider {
 
     // Les tutos que propose notre widget
-    private final static Publication PUBLICATIONS[] = {
+    private final static Publication[] PUBLICATIONS = {
             new Publication("1", "Une image URL", "Une premiere description", "Romain"),
             new Publication("2", "/azjhSKLUSJF:AEZER", "Photo du Japon", "Romain"),
             new Publication("3", "/depppe/qsdqq.png", "Un oiseau dans le ciel", "Steeve"),
@@ -55,6 +55,8 @@ public class InstartistWidget extends AppWidgetProvider {
 
             // On met le bon texte dans le bouton
             views.setTextViewText(R.id.link, PUBLICATIONS[indice].getDescription());
+            views.setTextViewText(R.id.link, PUBLICATIONS[indice].getAuthor());
+            views.setTextViewText(R.id.link, PUBLICATIONS[indice].getImageUrl());
 
             // La prochaine section est destinée au bouton qui permet de passer au tuto suivant
             //********************************************************
