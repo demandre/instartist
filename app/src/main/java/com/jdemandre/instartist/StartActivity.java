@@ -27,6 +27,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.jdemandre.instartist.Controller.UserController;
 import com.squareup.picasso.Picasso;
 
 public class StartActivity extends AppCompatActivity {
@@ -65,7 +67,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
             Toast.makeText(this, "Hello back, " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
@@ -77,7 +79,27 @@ public class StartActivity extends AppCompatActivity {
             } else {
                 Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
             }
-            startActivity(new Intent(StartActivity.this, MainActivity.class));
+            Toast.makeText(this, currentUser.getUid(), Toast.LENGTH_SHORT).show();
+
+            UserController.getUser(currentUser.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        } else {
+                            Log.d(TAG, "No such document");
+                            //TODO redirect to edit to get username and interests
+                            UserController.createUser(currentUser.getUid(),currentUser.getDisplayName(),"desc",null,null,currentUser.getPhotoUrl().toString(),currentUser.getEmail(),"0123",3.2f,null);
+                            startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
         }
     }
 

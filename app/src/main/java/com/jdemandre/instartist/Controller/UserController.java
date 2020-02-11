@@ -23,7 +23,7 @@ public class UserController {
 
     public static Task<Void> createUser(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
         User userToCreate = new User(id, userName, description, publications, interests, profilePic, email, phone, earnings, following);
-        return UserController.getUsersCollection().document(userName).set(userToCreate);
+        return UserController.getUsersCollection().document(id).set(userToCreate);
     }
 
     // --- GET ---
