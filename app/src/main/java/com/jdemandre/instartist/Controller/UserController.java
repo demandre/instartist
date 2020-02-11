@@ -60,7 +60,7 @@ public class UserController {
         return UserController.getUsersCollection().document(id).update("phone", phone);
     }
 
-    public static Task<Void> updateEarnings(String id, float earnings) {
+    public static Task<Void> updateEarnings(String id, double earnings) {
         return UserController.getUsersCollection().document(id).update("earnings", earnings);
     }
 

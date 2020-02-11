@@ -23,22 +23,6 @@
         android:orientation="vertical"
         android:layout_marginStart="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="username"
-            android:id="@+id/username"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/interests"
-            android:maxLines="1"
-            android:text="Full Name"/>
-
     </LinearLayout>
 
     <Button
@@ -51,5 +35,29 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="274dp"
+        android:layout_marginBottom="696dp"
+        android:maxLines="1"
+        android:text="username"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/interests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="277dp"
+        android:layout_marginBottom="679dp"
+        android:maxLines="1"
+        android:text="Full Name" />
 
 </RelativeLayout>

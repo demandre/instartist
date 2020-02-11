@@ -15,19 +15,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.jdemandre.instartist.Controller.UserController;
 import com.jdemandre.instartist.EditActivity;
+import com.jdemandre.instartist.Model.Publication;
 import com.jdemandre.instartist.R;
 import com.squareup.picasso.Picasso;
 
@@ -134,9 +145,26 @@ public class ProfileFragment extends Fragment {
 
                         @Override
                         public void onUserEarnedReward(@NonNull RewardItem reward) {
-                            Toast.makeText(ProfileFragment.this.getContext(), "You win !!!", Toast.LENGTH_SHORT).show();
-                            Log.d("jo", String.valueOf(reward.getAmount()));
-                            // TODO: handle give reward to the user we want
+                            final double rewardAmount = reward.getAmount();
+                            UserController.getUser(currentUser.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Double earnings = document.getDouble("earnings");
+                                            earnings += rewardAmount;
+                                            UserController.updateEarnings(currentUser.getUid(), earnings);
+                                            Toast.makeText(ProfileFragment.this.getContext(), "Reward given", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                        Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
 
                         @Override
@@ -158,8 +186,111 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        RecyclerView recyclerView = getView().findViewById(R.id.recycler_view_user_posts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        Query query = rootRef.collection("Publications")
+                .orderBy("id", Query.Direction.DESCENDING)
+                .whereEqualTo("author",currentUser.getUid());
+
+        FirestoreRecyclerOptions<Publication> options = new FirestoreRecyclerOptions.Builder<Publication>()
+                .setQuery(query, Publication.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Publication, PublicationViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final PublicationViewHolder publicationViewHolder, int i, @NonNull final Publication publication) {
+                publicationViewHolder.setPublicationDescription(publication.getDescription());
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                storageRef.child(publication.getImageUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        publicationViewHolder.setPublicationImage(uri.toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+                UserController.getUser(publication.getAuthor()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                publicationViewHolder.setPublicationUsername(document.getString("userName"));
+                                publicationViewHolder.setUserImage(document.getString("profilePic"));
+                            } else {
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                            Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public PublicationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
+                return new PublicationViewHolder(view);
+            }
+        };
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
     }
 
+    private FirestoreRecyclerAdapter<Publication, PublicationViewHolder> adapter;
 
+    private class PublicationViewHolder extends RecyclerView.ViewHolder {
+        private View view;
+
+        PublicationViewHolder(View itemView) {
+            super(itemView);
+            view = itemView;
+        }
+
+        void setPublicationDescription(String description) {
+            TextView textView = view.findViewById(R.id.description);
+            textView.setText(description);
+        }
+
+        void setUserImage(String url) {
+            ImageView imageView = view.findViewById(R.id.image_profile);
+            if (url != null) {
+                Picasso.get().load(url).into(imageView);
+            } else {
+                Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
+            }
+        }
+
+        void setPublicationImage(String url) {
+            ImageView imageView = view.findViewById(R.id.post_image);
+            if (url != null) {
+                Picasso.get().load(url).into(imageView);
+            } else {
+                Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
+            }
+        }
+
+        void setPublicationUsername(String username) {
+            TextView textView = view.findViewById(R.id.username);
+            textView.setText(username);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
 
 }

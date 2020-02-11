@@ -70,8 +70,6 @@ public class EditActivity extends AppCompatActivity {
                             }
                         });
                     }
-
-
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                     Toast.makeText(EditActivity.this, "Error happened... Pleas try again", Toast.LENGTH_SHORT).show();
