@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,8 +21,12 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.jdemandre.instartist.Controller.UserController;
 import com.jdemandre.instartist.EditActivity;
 import com.jdemandre.instartist.R;
 import com.squareup.picasso.Picasso;
@@ -30,7 +35,10 @@ import com.squareup.picasso.Picasso;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
+    private static final String TAG = "INSTARTIST";
     private RewardedAd rewardedAd;
+    private FirebaseAuth mAuth;
+
 
     private RewardedAd createAndLoadRewardedAd() {
         RewardedAd rewardedAd = new RewardedAd(this.getContext(),
@@ -65,15 +73,47 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         Uri photoUrl = currentUser.getPhotoUrl();
-        ImageView imageView = getView().findViewById(R.id.image_profile);
+        final ImageView imageView = getView().findViewById(R.id.image_profile);
         if (photoUrl != null) {
             Picasso.get().load(photoUrl).into(imageView);
         } else {
             Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
         }
+
+        UserController.getUser(currentUser.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (document.getString("profilePic") != null) {
+                            Picasso.get().load(document.getString("profilePic")).into(imageView);
+                        } else {
+                            Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
+                        }
+
+                        TextView username = getView().findViewById(R.id.username);
+                        username.setText(document.getString("userName"));
+
+                        TextView posts = getView().findViewById(R.id.posts);
+                        posts.setText("0");
+
+                        TextView earnings = getView().findViewById(R.id.earnings);
+                        double earningsData = (double) document.get("earnings");
+                        earnings.setText(String.valueOf(earningsData));
+                    } else {
+                        Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
         rewardedAd = createAndLoadRewardedAd();
