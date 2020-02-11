@@ -1,11 +1,9 @@
 package com.jdemandre.instartist;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,12 +27,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.jdemandre.instartist.Controller.UserController;
-import com.squareup.picasso.Picasso;
 
 public class StartActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE = 1;
-    private static final String TAG = "jo";
+    private static final String TAG = "INSTARTIST";
     private GoogleSignInClient client;
     private FirebaseAuth mAuth;
 
@@ -70,16 +67,9 @@ public class StartActivity extends AppCompatActivity {
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            Toast.makeText(this, "Hello back, " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
             findViewById(R.id.button).setVisibility(View.GONE);
-            Uri photoUrl = currentUser.getPhotoUrl();
-            ImageView imageView = findViewById(R.id.imageView);
-            if (photoUrl != null) {
-                Picasso.get().load(photoUrl).into(imageView);
-            } else {
-                Picasso.get().load("https://kooledge.com/assets/default_medium_avatar-57d58da4fc778fbd688dcbc4cbc47e14ac79839a9801187e42a796cbd6569847.png").into(imageView);
-            }
-            Toast.makeText(this, currentUser.getUid(), Toast.LENGTH_SHORT).show();
+            findViewById(R.id.welcome).setVisibility(View.GONE);
+            findViewById(R.id.welcome2).setVisibility(View.GONE);
 
             UserController.getUser(currentUser.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -87,16 +77,15 @@ public class StartActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            Toast.makeText(StartActivity.this, "Hello back, " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(StartActivity.this, MainActivity.class));
                         } else {
-                            Log.d(TAG, "No such document");
-                            //TODO redirect to edit to get username and interests
+                            startActivity(new Intent(StartActivity.this, EditActivity.class));
                             UserController.createUser(currentUser.getUid(),currentUser.getDisplayName(),"desc",null,null,currentUser.getPhotoUrl().toString(),currentUser.getEmail(),"0123",3.2f,null);
-                            startActivity(new Intent(StartActivity.this, MainActivity.class));
                         }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
+                        Toast.makeText(StartActivity.this, "Error happened... Pleas try again", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
