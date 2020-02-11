@@ -134,9 +134,26 @@ public class ProfileFragment extends Fragment {
 
                         @Override
                         public void onUserEarnedReward(@NonNull RewardItem reward) {
-                            Toast.makeText(ProfileFragment.this.getContext(), "You win !!!", Toast.LENGTH_SHORT).show();
-                            Log.d("jo", String.valueOf(reward.getAmount()));
-                            // TODO: handle give reward to the user we want
+                            final double rewardAmount = reward.getAmount();
+                            UserController.getUser(currentUser.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Double earnings = document.getDouble("earnings");
+                                            earnings += rewardAmount;
+                                            UserController.updateEarnings(currentUser.getUid(), earnings);
+                                            Toast.makeText(ProfileFragment.this.getContext(), "Reward given", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                        Toast.makeText(getContext(), "Error happened... Please try again", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
 
                         @Override
@@ -157,6 +174,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(getContext(), EditActivity.class));
             }
         });
+
 
     }
 
