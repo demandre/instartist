@@ -13,6 +13,13 @@ public class Publication {
         this.author = author;
     }
 
+    public Publication() {
+        this.id = null;
+        this.imageUrl = null;
+        this.description = null;
+        this.author = null;
+    }
+
     public String getId() {
         return id;
     }
