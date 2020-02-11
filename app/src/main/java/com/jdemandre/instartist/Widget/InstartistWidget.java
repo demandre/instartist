@@ -55,8 +55,6 @@ public class InstartistWidget extends AppWidgetProvider {
 
             // On met le bon texte dans le bouton
             views.setTextViewText(R.id.link, PUBLICATIONS[indice].getDescription());
-            views.setTextViewText(R.id.link, PUBLICATIONS[indice].getAuthor());
-            views.setTextViewText(R.id.link, PUBLICATIONS[indice].getImageUrl());
 
             // La prochaine section est destinée au bouton qui permet de passer au tuto suivant
             //********************************************************
