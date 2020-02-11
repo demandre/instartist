@@ -22,14 +22,14 @@ public class UserController {
 
     // --- CREATE ---
 
-    public static Task<Void> createUser(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
+    public static Task<Void> createUser(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, double earnings, List<User> following) {
         User userToCreate = new User(id, userName, description, publications, interests, profilePic, email, phone, earnings, following);
         return UserController.getUsersCollection().document(id).set(userToCreate);
     }
 
     // --- GET ---
 
-    public static Task<DocumentSnapshot> getUser(String id){
+    public static Task<DocumentSnapshot> getUser(String id) {
         Source source = Source.SERVER;
         return UserController.getUsersCollection().document(id).get(source);
     }

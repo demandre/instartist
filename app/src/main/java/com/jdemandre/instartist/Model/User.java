@@ -11,10 +11,10 @@ public class User {
     private String profilePic;
     private String email;
     private String phone;
-    private float earnings;
+    private double earnings;
     private List<User> following;
 
-    public User(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, float earnings, List<User> following) {
+    public User(String id, String userName, String description, List<Publication> publications, List<String> interests, String profilePic, String email, String phone, double earnings, List<User> following) {
         this.id = id;
         this.userName = userName;
         this.description = description;
@@ -73,10 +73,10 @@ public class User {
         this.profilePic = profilePic;
     }
 
-    public float getEarnings() {
+    public double getEarnings() {
         return earnings;
     }
-    public void setEarnings(float earnings) {
+    public void setEarnings(double earnings) {
         this.earnings = earnings;
     }
 

@@ -62,7 +62,7 @@ public class EditActivity extends AppCompatActivity {
                                 if(username.getText().toString().contentEquals("")) {
                                     Toast.makeText(EditActivity.this, "Please set username", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    UserController.createUser(currentUser.getUid(),username.getText().toString(),"description",null,null,currentUser.getPhotoUrl().toString(),currentUser.getEmail(),currentUser.getPhoneNumber(),0.0f,null);
+                                    UserController.createUser(currentUser.getUid(),username.getText().toString(),"description",null,null,currentUser.getPhotoUrl().toString(),currentUser.getEmail(),currentUser.getPhoneNumber(),0.0,null);
 
                                     Toast.makeText(EditActivity.this, "Profile created", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(EditActivity.this, MainActivity.class));
