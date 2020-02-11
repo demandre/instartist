@@ -21,9 +21,11 @@ public class InstartistWidget extends AppWidgetProvider {
             new Publication("1", "Une image URL", "Une premiere description", "Romain"),
             new Publication("2", "/azjhSKLUSJF:AEZER", "Photo du Japon", "Romain"),
             new Publication("3", "/depppe/qsdqq.png", "Un oiseau dans le ciel", "Steeve"),
-            new Publication("4", "/photo/1.jpg", "Une premiere description", "Lili"),
+            new Publication("4", "/photo/1.jpg", "Une premiere description", "Lili")
 
     };
+
+    // ImageView in your Activity
 
     // Intitulé de l'extra qui contient la direction du défilé
     private final static String EXTRA_DIRECTION = "extraDirection";
@@ -36,9 +38,6 @@ public class InstartistWidget extends AppWidgetProvider {
 
     // Intitulé de l'extra qui contient l'indice actuel dans le tableau des tutos
     private final static String EXTRA_INDICE = "extraIndice";
-
-    // Action qui indique qu'on essaie d'ouvrir un tuto sur internet
-    private final static String ACTION_OPEN_TUTO = "sdz.chapitreQuatre.tutowidget.action.OPEN_TUTO";
 
     // Indice actuel dans le tableau des tutos
     private int indice = 0;
@@ -54,7 +53,9 @@ public class InstartistWidget extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.instartist_widget);
 
             // On met le bon texte dans le bouton
-            views.setTextViewText(R.id.link, PUBLICATIONS[indice].getDescription());
+            //views.setTextViewText(R.id.imageWidget, PUBLICATIONS[indice].getImageUrl());
+            //views.setTextViewText(R.id.imageWidget, PUBLICATIONS[indice].getDescription());
+            //views.setTextViewText(R.id.author, PUBLICATIONS[indice].getAuthor());
 
             // La prochaine section est destinée au bouton qui permet de passer au tuto suivant
             //********************************************************
@@ -109,16 +110,6 @@ public class InstartistWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Si l'action est celle d'ouverture du tutoriel
-        if(intent.getAction().equals(ACTION_OPEN_TUTO)) {
-            Intent link = new Intent(Intent.ACTION_VIEW);
-            link.setData(intent.getData());
-            link.addCategory(Intent.CATEGORY_DEFAULT);
-            // Comme on ne se trouve pas dans une activité, on demande à créer une nouvelle tâche
-            link.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(link);
-        } else {
-            // Sinon, s'il s'agit d'une demande de mise à jour
             // On récupère l'indice passé en extra, ou -1 s'il n'y a pas d'indice
             int tmp = intent.getIntExtra(EXTRA_INDICE, -1);
 
@@ -134,7 +125,6 @@ public class InstartistWidget extends AppWidgetProvider {
                 } else if(extra.equals(EXTRA_NEXT))
                     indice = (tmp + 1) % PUBLICATIONS.length;
             }
-        }
 
         // On revient au traitement naturel du Receiver, qui va lancer onUpdate s'il y a demande de mise à jour
         super.onReceive(context, intent);
