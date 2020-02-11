@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.jdemandre.instartist.Model.Publication;
 
 public class PublicationController {
@@ -47,6 +48,14 @@ public class PublicationController {
 
     public static Task<Void> deleteUser(String id) {
         return PublicationController.getPublicationsCollection().document(id).delete();
+    }
+
+    // --- WIDGET ---
+
+    public static Query getPlublicationForWidget(){
+        return PublicationController.getPublicationsCollection()
+                .orderBy("id")
+                .limit(3);
     }
 
 }
