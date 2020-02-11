@@ -9,24 +9,20 @@
     android:layout_height="match_parent"
     tools:context=".StartActivity">
 
-    <Button
+
+    <TextView
+        android:id="@+id/welcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Log in"
-        android:id="@+id/login"
-        android:textColor="@color/colorPrimary"
-        android:background="@drawable/button_background"/>
+        android:text="Bienvenue !"
+        android:textAlignment="center" />
 
-    <Button
+    <TextView
+        android:id="@+id/welcome2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Register"
-        android:id="@+id/register"
-        android:textColor="@color/colorPrimary"
-        android:background="@drawable/button_background"/>
-
+        android:text="Connectez-vous pour continuer."
+        android:textAlignment="center" />
 
     <ImageView
         android:id="@+id/imageView"
