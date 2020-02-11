@@ -16,10 +16,9 @@ public class UserAdapter extends RecyclerView.Adapter {
     private List<User> mUsers;
     private boolean isFragment;
 
-    public UserAdapter(Context context, List<User> users, boolean isFragment){
+    public UserAdapter(Context context, List<User> users){
         mContext = context;
         mUsers = users;
-        this.isFragment = isFragment;
     }
 
     @NonNull
