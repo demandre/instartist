@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 
 import com.jdemandre.instartist.Model.Publication;
 import com.jdemandre.instartist.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Implementation of App Widget functionality.
@@ -18,17 +19,12 @@ public class InstartistWidget extends AppWidgetProvider {
 
     // Les tutos que propose notre widget
     private final static Publication PUBLICATIONS[] = {
-            new Publication("1", "Une image URL", "Une premiere description", "Romain"),
+            new Publication("1", "", "Une premiere description", "Romain"),
             new Publication("2", "/azjhSKLUSJF:AEZER", "Photo du Japon", "Romain"),
             new Publication("3", "/depppe/qsdqq.png", "Un oiseau dans le ciel", "Steeve"),
             new Publication("4", "/photo/1.jpg", "Une premiere description", "Lili")
 
     };
-
-    // ImageView in your Activity
-
-    // Intitulé de l'extra qui contient la direction du défilé
-    private final static String EXTRA_DIRECTION = "extraDirection";
 
     // La valeur pour défiler vers la gauche
     private final static String EXTRA_PREVIOUS = "previous";
